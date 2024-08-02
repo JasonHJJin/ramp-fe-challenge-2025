@@ -10,16 +10,15 @@ export const Transactions: TransactionsComponent = ({ transactions }) => {
 
   const setTransactionApproval = useCallback<SetTransactionApprovalFunction>(
     async ({ transactionId, newValue }) => {
-      await fetchWithoutCache<void, SetTransactionApprovalParams>("setTransactionApproval", {
-        transactionId,
-        value: newValue,
-      });
-
-      // Clear cache for relevant endpoints
+      await fetchWithoutCache<void, SetTransactionApprovalParams>(
+        "setTransactionApproval",
+        {
+          transactionId,
+          value: newValue,
+        }
+      );
+      // Clear cache
       clearCacheByEndpoint(["paginatedTransactions", "transactionsByEmployee"]);
-
-      // Fetch fresh data if necessary
-      // Depending on your data flow, re-fetch the updated transaction or transactions
     },
     [fetchWithoutCache, clearCacheByEndpoint]
   );
